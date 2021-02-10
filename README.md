@@ -1,16 +1,8 @@
-=== Cashfree Wordpress Button ===
-Contributors: Cashfree
-Plugin Name: Cashfree Wordpress Button
-Plugin URI: https://www.gocashfree.com
-Tags: cashfree, payments, wp, button, simple
-Requires at least: 4.2
-Tested up to: 5.6
-Stable tag: 1.0.0
-Version: 1.0.0
+# Cashfree Wordpress Button
 
 Allows you to easily built payment buttons on your WordPress website.
 
-== Description ==
+## Description
 
 This is the official "Cashfree Wordpress Button" plugin for Cashfree merchants. This allows
 you to do the following:
@@ -27,7 +19,7 @@ This makes use of the Cashfree Orders API, and the flow is the follows:
 3. A click on the button creates an "order" using Cashfree API
 4. The payment is completed there itself and the customer is informed
 
-== Customization ==
+## Customization
 
 For this plugin to work correctly, please mention the following items as page metadata (using Screen Options for >4.8) -> Custom Fields:
 
