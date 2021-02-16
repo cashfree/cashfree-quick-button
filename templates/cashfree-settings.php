@@ -1,6 +1,6 @@
 <?php
 
-class CF_Templates
+class Cashfree_Setting_Templates
 {
 	/**
      * Generates admin page options using Settings API

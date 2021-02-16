@@ -1,6 +1,6 @@
-=== Cashfree Wordpress Button ===
+=== Cashfree Quick Button ===
 Contributors: Cashfree
-Plugin Name: Cashfree Wordpress Button
+Plugin Name: Cashfree Quick Button
 Plugin URI: https://www.gocashfree.com
 Tags: cashfree, payments, wp, button, simple
 Requires at least: 4.2
@@ -12,7 +12,7 @@ Allows you to easily built payment buttons on your WordPress website.
 
 == Description ==
 
-This is the official "Cashfree Wordpress Button" plugin for Cashfree merchants. This allows
+This is the official "Cashfree Quick Button" plugin for Cashfree merchants. This allows
 you to do the following:
 
 1. Add a few custom variables and some markup to a page.

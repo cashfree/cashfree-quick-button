@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../templates/cashfree-settings.php';
 
-class CF_Settings
+class Cashfree_Settings
 { 
     public function __construct()
     {
@@ -12,7 +12,7 @@ class CF_Settings
         // Initializes display options when admin page is initialized
         add_action('admin_init', array($this, 'displayCfOptions'));
 
-        $this->template = new CF_Templates();
+        $this->template = new Cashfree_Setting_Templates();
     }
 
     /**
