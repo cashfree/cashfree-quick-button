@@ -1,5 +1,5 @@
 <?php
-class CF_Checkout
+class Cashfree_Checkout
 {
     /** Get config detail from custom post/page
      * __construct
@@ -32,12 +32,12 @@ class CF_Checkout
 
         $metaData = get_post_meta($pageID);
 
-        if (!defined('CF_RETURN_URL')) {
-            define('CF_RETURN_URL', esc_url(add_query_arg('act', 'ret', get_permalink($pageID))));
+        if (!defined('CASHFREE_RETURN_URL')) {
+            define('CASHFREE_RETURN_URL', esc_url(add_query_arg('act', 'ret', get_permalink($pageID))));
         }
 
-        if (!defined('CF_NOTIFY_URL')) {
-            define('CF_NOTIFY_URL', esc_url(add_query_arg('act', 'notify', get_permalink($pageID))));
+        if (!defined('CASHFREE_NOTIFY_URL')) {
+            define('CASHFREE_NOTIFY_URL', esc_url(add_query_arg('act', 'notify', get_permalink($pageID))));
         }
 
         $cfRequest = array();
@@ -56,8 +56,8 @@ class CF_Checkout
         $cfRequest["customerName"] = $postArgs['customerName'];
         $cfRequest["customerEmail"] = $postArgs['customerEmail'];
         $cfRequest["source"] = "woocommerce";
-        $cfRequest["returnUrl"] = CF_RETURN_URL;
-        $cfRequest["notifyUrl"] = CF_NOTIFY_URL;
+        $cfRequest["returnUrl"] = CASHFREE_RETURN_URL;
+        $cfRequest["notifyUrl"] = CASHFREE_NOTIFY_URL;
         $timeout = 30;
         
         try {

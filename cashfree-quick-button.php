@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Cashfree Wordpress Button
+ * Plugin Name: Cashfree Quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
  * Version: 1.0.0
@@ -11,18 +11,18 @@
  */
 
 require_once __DIR__ . '/includes/settings.php';
-require_once __DIR__ . '/includes/cf-checkout.php';
+require_once __DIR__ . '/includes/cashfree-checkout.php';
 
 add_action('plugins_loaded', 'quickPaymentInit', 0);
-add_action('admin_post_nopriv_cf_checkout_form', 'checkout_form', 10);
 add_action( 'wp_enqueue_scripts','initialize_bootsrtap');
 
 //Add external css and js file for modal
 function initialize_bootsrtap() {
-    wp_register_style('cf_bootstrap_css', plugins_url('assets/css/bootstrap.min.css',__FILE__ ));
-    wp_enqueue_style('cf_bootstrap_css');
-    wp_register_script( 'cf_bootstrap_js', plugins_url('assets/js/bootstrap.min.js',__FILE__ ));
-    wp_enqueue_script('cf_bootstrap_js');
+    wp_enqueue_script('jquery');
+    wp_register_style('cashfree_bootstrap_css', plugins_url('assets/css/bootstrap.min.css',__FILE__ ));
+    wp_enqueue_style('cashfree_bootstrap_css');
+    wp_register_script( 'cashfree_bootstrap_js', plugins_url('assets/js/bootstrap.min.js',__FILE__ ));
+    wp_enqueue_script('cashfree_bootstrap_js');
 }
 
 /**
@@ -32,17 +32,22 @@ function initialize_bootsrtap() {
  */
 function quickPaymentInit()
 {
+    if ( is_user_logged_in() ) {
+        add_action('admin_post_cashfree_checkout_form', 'checkout_form', 10, 0);
+    } else {
+        add_action('admin_post_nopriv_cashfree_checkout_form', 'checkout_form', 10, 0);
+    }
     // Adding constants
-    if (!defined('CF_BASE_NAME')) {
-        define('CF_BASE_NAME', plugin_basename(__FILE__));
+    if (!defined('CASHFREE_BASE_NAME')) {
+        define('CASHFREE_BASE_NAME', plugin_basename(__FILE__));
     }
 
-    if (!defined('CF_CHECKOUT_URL')) {
-        define('CF_CHECKOUT_URL', esc_url(admin_url('admin-post.php')) . '?action=cf_checkout_form');
+    if (!defined('CASHFREE_CHECKOUT_URL')) {
+        define('CASHFREE_CHECKOUT_URL', esc_url(admin_url('admin-post.php')) . '?action=cashfree_checkout_form');
     }
 
     // The main plug in class
-    class WP_Cashfree
+    class Cashfree_Quick_Button
     {
         /**
          * __construct
@@ -67,15 +72,13 @@ function quickPaymentInit()
             $this->message = "";
 
             // Creates the settings page
-            $settings = new CF_Settings();
+            $settings = new Cashfree_Settings();
 
             // Creates a customizable tag for us to place our pay button anywhere using [CFPB]
             add_shortcode('CFPB', array($this, 'checkout'));
 
             // Adding links on the plugin page for docs, support and settings
-            add_filter('plugin_action_links_' . CF_BASE_NAME, array($this, 'pluginLinks'));
-
-            wp_enqueue_script('jquery');
+            add_filter('plugin_action_links_' . CASHFREE_BASE_NAME, array($this, 'pluginLinks'));
         }
 
         /**
@@ -141,7 +144,7 @@ function quickPaymentInit()
                 // Replacing placeholders in the HTML with PHP variables for the form to be handled correctly
                 $keys = array("#redirectUrl#", "#pageID#", "#cfButton#", "#icon#", "#title#", "#description#", "#orderAmount#", "#txMsg#");
 
-                $values = array(CF_CHECKOUT_URL, $pageID, $cfButton, $this->icon, $title, $description, $orderAmount, $response['txMsg']);
+                $values = array(CASHFREE_CHECKOUT_URL, $pageID, $cfButton, $this->icon, $title, $description, $orderAmount, $response['txMsg']);
 
                 $html = str_replace($keys, $values, $buttonHtml);
 
@@ -188,7 +191,7 @@ function quickPaymentInit()
         }
     }
 
-    return new WP_Cashfree();
+    return new Cashfree_Quick_Button();
 }
 
 /**
@@ -198,7 +201,7 @@ function quickPaymentInit()
  */
 function checkout_form()
 {
-    $cfCheckout = new CF_Checkout();
+    $cfCheckout = new Cashfree_Checkout();
 
     $cfCheckout->process();
 }
