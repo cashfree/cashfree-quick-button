@@ -13,11 +13,11 @@
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/cashfree-checkout.php';
 
-add_action('plugins_loaded', 'quickPaymentInit', 0);
-add_action( 'wp_enqueue_scripts','initialize_bootsrtap');
+add_action('plugins_loaded', 'cashfreeQuickPaymentInit', 0);
+add_action( 'wp_enqueue_scripts','cashfreeInitializeJquery');
 
 //Add external css and js file for modal
-function initialize_bootsrtap() {
+function cashfreeInitializeJquery() {
     wp_enqueue_script('jquery');
 }
 
@@ -26,12 +26,12 @@ function initialize_bootsrtap() {
  *
  * @return void
  */
-function quickPaymentInit()
+function cashfreeQuickPaymentInit()
 {
     if ( is_user_logged_in() ) {
-        add_action('admin_post_cashfree_checkout_form', 'checkout_form', 10, 0);
+        add_action('admin_post_cashfree_checkout_form', 'cashfreeCheckoutForm', 10, 0);
     } else {
-        add_action('admin_post_nopriv_cashfree_checkout_form', 'checkout_form', 10, 0);
+        add_action('admin_post_nopriv_cashfree_checkout_form', 'cashfreeCheckoutForm', 10, 0);
     }
     // Adding constants
     if (!defined('CASHFREE_BASE_NAME')) {
@@ -195,7 +195,7 @@ function quickPaymentInit()
  *
  * @return void
  */
-function checkout_form()
+function cashfreeCheckoutForm()
 {
     $cfCheckout = new Cashfree_Checkout();
 
