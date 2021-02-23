@@ -1,14 +1,14 @@
-# Cashfree Quick Button
+# Cashfree Wordpress Button
 
 Allows you to easily built payment buttons on your WordPress website.
 
 ## Description
 
-This is the official "Cashfree Quick Button" plugin for Cashfree merchants. This allows
+This is the official "Cashfree Wordpress Button" plugin for Cashfree merchants. This allows
 you to do the following:
 
 1. Add a few custom variables and some markup to a page.
-2. Specify the orderAmount, title, description and other custom details as page metadata.
+2. Specify the amount, title, description and other custom details as page metadata.
 3. Write [CFPB] wherever you want on the post and the button to show up.
 4. The plugin takes over and completes the payment.
 
