@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Cashfree Quick Button
+ * Plugin Name: Cashfree quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
  * Version: 1.0.0
@@ -19,10 +19,6 @@ add_action( 'wp_enqueue_scripts','initialize_bootsrtap');
 //Add external css and js file for modal
 function initialize_bootsrtap() {
     wp_enqueue_script('jquery');
-    wp_register_style('cashfree_bootstrap_css', plugins_url('assets/css/bootstrap.min.css',__FILE__ ));
-    wp_enqueue_style('cashfree_bootstrap_css');
-    wp_register_script( 'cashfree_bootstrap_js', plugins_url('assets/js/bootstrap.min.js',__FILE__ ));
-    wp_enqueue_script('cashfree_bootstrap_js');
 }
 
 /**
@@ -137,7 +133,7 @@ function quickPaymentInit()
             if (isset($this->appID) && isset($this->secretKey) && $orderAmount != null) {
                 $buttonHtml = file_get_contents(__DIR__ . '/templates/checkout.phtml');
                 if($response['txStatus'] != 'SUCCESS') {
-                    $cfButton = '<button id="btn-cashfree" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cfCheckoutModal">
+                    $cfButton = '<button id="btn_cashfree" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cfCheckoutModal">
                     ' . $this->title . '
                     </button>';
                 }
