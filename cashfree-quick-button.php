@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Cashfree quick Button
+ * Plugin Name: Cashfree Quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
  * Version: 1.0.0
