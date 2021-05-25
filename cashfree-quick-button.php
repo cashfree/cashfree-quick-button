@@ -3,7 +3,7 @@
  * Plugin Name: Cashfree Quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Cashfree Dev
  * Author URI: techsupport@gocashfree.com
  * Wordpress requires at least: 4.2
