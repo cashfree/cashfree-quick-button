@@ -5,8 +5,8 @@ Plugin URI: https://www.gocashfree.com
 Tags: cashfree, payments, wp, button, simple
 Requires at least: 4.2
 Tested up to: 5.6
-Stable tag: 1.0.0
-Version: 1.0.0
+Stable tag: 1.0.1
+Version: 1.0.1
 
 Allows you to easily built payment buttons on your WordPress website.
 
