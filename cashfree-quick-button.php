@@ -3,7 +3,8 @@
  * Plugin Name: Cashfree Quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
- * Version: 1.0.2
+ * Version: 2.0.0
+ * Stable tag: 2.0.0
  * Author: Cashfree Dev
  * Author URI: techsupport@gocashfree.com
  * Wordpress requires at least: 4.2
@@ -55,7 +56,7 @@ function cashfreeQuickPaymentInit()
         {
             $this->id = 'cashfree';
             $this->method = 'Cashfree';
-            $this->icon = plugins_url('assets/images/logo.png', __FILE__);
+            $this->icon = plugins_url('images/logo.png', __FILE__);
             $this->has_fields = false;
 
             // initializing our object with all the setting variables

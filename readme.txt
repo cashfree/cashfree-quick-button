@@ -1,12 +1,14 @@
 === Cashfree Quick Button ===
-Contributors: Cashfree
+Contributors: devcashfree
 Plugin Name: Cashfree Quick Button
 Plugin URI: https://www.gocashfree.com
 Tags: cashfree, payments, wp, button, simple
 Requires at least: 4.2
 Tested up to: 5.6
-Stable tag: 1.0.2
-Version: 1.0.2
+Stable tag: 2.0.0
+Version: 2.0.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Allows you to easily built payment buttons on your WordPress website.
 
@@ -36,6 +38,9 @@ For this plugin to work correctly, please mention the following items as page me
 3. 'orderAmount' with a minimum of 1 rupee.
 
 == Changelog ==
+
+= 2.0.0 = 
+* Move assets folder
 
 = 1.0.2 = 
 * Updated release on Plugins marketplace
