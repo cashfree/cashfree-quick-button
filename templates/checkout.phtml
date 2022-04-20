@@ -25,7 +25,8 @@
     .modal-content {
         background-color: #fefefe;
         margin: auto;
-        max-width: 400px;
+        width: 400px;
+        max-width: 100%;
     }
     .close {
         color: #fff;
@@ -43,6 +44,9 @@
     #cfCheckoutModal {
         width: 100% !important;
         max-width: 100% !important;
+        margin-top: 0px !important;
+        align-items: center;
+        justify-content: center;
     }
 
     .modal-header {
@@ -131,6 +135,146 @@
         background-color: #fff3cd;
         border-color: #ffeeba;
     }
+
+    #cfCheckoutModal .modal-content{
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    #cfCheckoutModal .cf_logo {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        border-radius: 4px;
+        width: 50px;
+        height: 50px;
+    }
+    #cfCheckoutModal .modal-header {
+        background-color: #f4f7fb;
+        padding: 10px;
+        color: #444;
+    }
+
+    #cfCheckoutModal .modal-header p {
+        font-size: 14px;
+        color: #999;
+        font-weight: 500;
+    }
+
+
+
+    #cfCheckoutModal input {
+        padding: 5px !important;
+        border-radius: 0.5rem;
+        border: 2px solid #e3ebf6 !important;
+        font-size: 18px !important;
+        /* width: 96%; */
+        display: block;
+        height: 45px !important;
+        background: #f4f7fb;
+        margin: 10px auto;
+        outline: none;
+    }
+    #cfCheckoutModal input:focus,
+    #cfCheckoutModal input:active {
+			border: 2px solid;
+			background: #f4f7fb;
+			box-shadow: none;
+		}
+       
+
+/* CSS */
+.button-5 {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #fa6400  !important;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff !important;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.button-5:hover,
+.button-5:focus {
+  background-color: #fb8332;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.button-5:hover {
+  transform: translateY(-1px);
+}
+
+.button-5:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
+}
+ 
+/* CSS */
+.button-6 {
+  align-items: center;
+  background-color: #FFFFFF  !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85)  !important;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.button-6:hover,
+.button-6:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.button-6:hover {
+  transform: translateY(-1px);
+}
+
+.button-6:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
 </style>
 
 <!-- Add custom button on page/post -->
@@ -144,15 +288,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <a class="close" data-dismiss="modal">×</a>
-                <h3>
+                <a class="close close-btn" style="color: black;">×</a>
+                <div style="    position: relative;padding-left: 70px;">
                     <img class="cf_logo" src="#icon#" alt="img"/>
                     <span>#title#</span>
-                </h3>
-                <p>#description#</p>
-                <h3>₹ #orderAmount#</h3>
+                    <p>#description#</p>
+                    <h3>₹ #orderAmount#</h3>
+                </div>
+                
             </div>
-            <div class="form-modal">
+            <div class="form-modal" style="padding-top: 0px;">
                 <form class="needs-validation" id="cfCheckoutForm" method="post" action="#redirectUrl#" novalidate>
                     <div class="form-group">
                         <label for="customerName">Name</label>
@@ -167,8 +312,8 @@
                         <input type="text" class="form-control" id="customerPhone" name="customerPhone" required>
                     </div>
                     <div class="align-right-btns">
-                        <button type="button" class="cancel-btns">CANCEL</button>
-                        <button type="submit" class="proceed-btns">PROCEED</button>
+                        <button type="button" class="button-6 cancel-btns">CANCEL</button>
+                        <button type="submit" class="button-5">PROCEED</button>
                         <input type="hidden" name="pageID" value="#pageID#">
                     </div>
                 </form> 
@@ -203,17 +348,16 @@
 <script>
     // Get the modal
     var modal = document.getElementById("cfCheckoutModal");
-
+    // var modalDialog
     // Get the button that opens the modal
     var btn = document.getElementById("btn_cashfree");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close-btn")[0];
     var cancel_btn = document.getElementsByClassName("cancel-btns")[0];
-
     // When the user clicks the button, open the modal 
     btn.onclick = function() {
-    modal.style.display = "block";
+    modal.style.display = "flex";
     }
 
     // When the user clicks on <span> (x), close the modal
@@ -222,7 +366,7 @@
     }
 
     cancel_btn.onclick = function() {
-    modal.style.display = "none";
+        modal.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {

@@ -62,6 +62,28 @@ class Cashfree_Setting_Templates
     /**
      * Title field of settings page
     **/
+    function displayCfEnable()
+    {
+        $default = get_option('cf_enable');
+
+        $selected_enable = ($default == 'enable') ? 'selected' : '' ;
+        $selected_disable = ($default == 'disable') ? 'selected' : '' ;
+
+        $enable = <<<EOT
+<select name="cf_enable" id="enable" value="{$default}" />
+    <option value="enable" {$selected_enable}>Enable</option>
+    <option value="disable" {$selected_disable}>Disable</option>
+</select>
+<br>
+<label for ="enable">Enable/Disable Cashfree Payments Button</label>
+EOT;
+
+        echo $enable;
+    }
+
+    /**
+     * Title field of settings page
+    **/
     function displayCfTitle()
     {
         $default = get_option('cf_title', "Pay with Cashfree");
@@ -126,13 +148,13 @@ EOT;
     {
         $default = get_option('cf_payment_mode');
 
-        $selected_test_mode = ($default == 'test') ? 'selected' : '' ;
-        $selected_prod_mode = ($default == 'prod') ? 'selected' : '' ;
+        $selected_test_mode = ($default == 'sandbox') ? 'selected' : '' ;
+        $selected_prod_mode = ($default == 'production') ? 'selected' : '' ;
 
         $paymentMode = <<<EOT
 <select name="cf_payment_mode" id="payment_mode" value="{$default}" />
-    <option value="test" {$selected_test_mode}>Test</option>
-    <option value="prod" {$selected_prod_mode}>Prod</option>
+    <option value="sandbox" {$selected_test_mode}>Sandbox</option>
+    <option value="production" {$selected_prod_mode}>Production</option>
 </select>
 <br>
 <label for ="payment_mode">Payment mode for order.</label>
@@ -144,6 +166,7 @@ EOT;
     protected function getSettings()
     {
         $settings = array(
+            'cf_enable'         => 'Enable/Disable',
             'cf_title'          => 'Title',
             'cf_app_id'         => 'App ID',
             'cf_secret_key'     => 'Secret Key',
