@@ -48,6 +48,14 @@ class Cashfree_Settings
     }
 
     /**
+     * Enable field of settings page
+    **/
+    function displayCfEnable()
+    {	
+        $this->template->displayCfEnable();
+    }
+
+    /**
      * Title field of settings page
     **/
     function displayCfTitle()

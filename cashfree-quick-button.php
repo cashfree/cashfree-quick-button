@@ -3,8 +3,8 @@
  * Plugin Name: Cashfree Quick Button
  * Plugin URI: https://www.cashfree.com
  * Description: Cashfree Button plugin for Wordpress by Cashfree.
- * Version: 2.0.0
- * Stable tag: 2.0.0
+ * Version: 2.1.0
+ * Stable tag: 2.1.0
  * Author: Cashfree Dev
  * Author URI: techsupport@gocashfree.com
  * Wordpress requires at least: 4.2
@@ -13,6 +13,8 @@
 
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/cashfree-checkout.php';
+require_once __DIR__ . '/includes/cashfree-payments-gateway.php';
+require_once __DIR__ . '/includes/cashfree-functions.php';
 
 add_action('plugins_loaded', 'cashfreeQuickPaymentInit', 0);
 add_action( 'wp_enqueue_scripts','cashfreeInitializeJquery');
@@ -29,6 +31,7 @@ function cashfreeInitializeJquery() {
  */
 function cashfreeQuickPaymentInit()
 {
+
     if ( is_user_logged_in() ) {
         add_action('admin_post_cashfree_checkout_form', 'cashfreeCheckoutForm', 10, 0);
     } else {
@@ -39,11 +42,16 @@ function cashfreeQuickPaymentInit()
         define('CASHFREE_BASE_NAME', plugin_basename(__FILE__));
     }
 
+    // Adding constants
+    if (!defined('QB_CASHFREE_DIR_PATH')) {
+        define('QB_CASHFREE_DIR_PATH', plugin_dir_url( __FILE__ ));
+    }
+
     if (!defined('CASHFREE_CHECKOUT_URL')) {
         define('CASHFREE_CHECKOUT_URL', esc_url(admin_url('admin-post.php')) . '?action=cashfree_checkout_form');
     }
 
-    // The main plug in class
+    // The main plugin class
     class Cashfree_Quick_Button
     {
         /**
@@ -60,6 +68,7 @@ function cashfreeQuickPaymentInit()
             $this->has_fields = false;
 
             // initializing our object with all the setting variables
+            $this->enable           = get_option('cf_enable');
             $this->title            = get_option('cf_title');
             $this->appID            = get_option('cf_app_id');
             $this->secretKey        = get_option('cf_secret_key');
@@ -99,15 +108,48 @@ function cashfreeQuickPaymentInit()
          **/
         function checkout()
         {
+            $cfGateway = new Cashfree_Gateway();
             $response = array(
                             "txMsg"   => "",
                             'txStatus'  => ""
                         );
-            if (isset($_GET['act']) && $_GET['act'] == 'ret') {
-                $postArgs = filter_input_array(INPUT_POST);
 
-                $response = $this->cashfreePaymentResponse($postArgs, $response);
+            if (isset($_GET['token_param']) && isset($_GET['pageId'])) {
+
+                $cfGateway->checkout_process();
             }
+
+            if (isset($_GET['act']) && $_GET['act'] == 'dismiss') {
+
+                $this->message = '<br><div class="alert alert-danger">Please try again.</div>';
+                $response = array(
+                    'txMsg'          => $this->message,
+                    'txStatus'         => 'PENDING'
+                );
+            }
+
+            if (isset($_GET['act']) && $_GET['act'] == 'capture') {
+
+                $response = $cfGateway->capture();
+               
+            }
+
+            if (isset($_GET['act']) && $_GET['act'] == 'cancel') {
+
+                $response = $cfGateway->capture();
+               
+            }
+
+            if (isset($_GET['act']) && $_GET['act'] == 'error') {
+
+                $this->message = '<br><div class="alert alert-danger">Sorry that email address or phone number is not right. Please fill correct email/phone fields.</div>';
+                $response = array(
+                    'txMsg'          => $this->message,
+                    'txStatus'         => 'PENDING'
+                );
+               
+            }
+
             $html = $this->generateCashfreePaymentButton($response);
             
             
@@ -131,7 +173,7 @@ function cashfreeQuickPaymentInit()
 
             $description = $metaData['description'][0];
 
-            if (isset($this->appID) && isset($this->secretKey) && $orderAmount != null) {
+            if (isset($this->appID) && isset($this->secretKey) && $orderAmount != null && $this->enable == 'enable') {
                 $buttonHtml = file_get_contents(__DIR__ . '/templates/checkout.phtml');
                 if($response['txStatus'] != 'SUCCESS') {
                     $cfButton = '<button id="btn_cashfree" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cfCheckoutModal">
@@ -151,41 +193,6 @@ function cashfreeQuickPaymentInit()
             return null;
         }
 
-        /**
-         * Check response of payment gateway and redirect accordingly
-         *
-         * @param  mixed $postArgs
-         * @return void
-         */
-        function cashfreePaymentResponse($postArgs, $response)
-        {
-            if (!empty($postArgs)) {
-                $txMsg = $postArgs['txMsg'];
-                if ($postArgs['txStatus'] == 'SUCCESS') {
-                    $amount = $postArgs['orderAmount'];
-                    $data = "{$postArgs['orderId']}{$postArgs['orderAmount']}{$postArgs['referenceId']}{$postArgs['txStatus']}{$postArgs['paymentMode']}{$txMsg}{$postArgs['txTime']}";
-                    $hash_hmac = hash_hmac('sha256', $data, $this->secretKey, true);
-                    $computedSignature = base64_encode($hash_hmac);
-                    if ($postArgs["signature"] != $computedSignature) {
-                        $this->message = '<br><div class="alert alert-danger">Thank you for being with us. However, the payment failed because of some invalidate payment</div>';
-                    } else {
-                        $this->message = '<br><div class="alert alert-success">' . $this->successMessage
-                        . "<br>" . "Order ID : " . esc_html($postArgs['orderId']). "<br>" . "Transaction ID : " . esc_html($postArgs['referenceId']) . "<br>" . "Order Amount: ₹$amount . </div>";
-                    }
-                } elseif ($postArgs['txStatus'] == 'PENDING') {
-                    $this->message = '<br><div class="alert alert-warning">Thank you for being with us. However, the payment pending.</div>';
-                } else {
-                    $this->message = '<br><div class="alert alert-danger">Thank you for being with us. However, the payment failed.<br>' . $txMsg . '</div>';
-                }
-
-                $response = array(
-                    'txMsg'          => $this->message,
-                    'txStatus'         => $postArgs['txStatus']
-                );
-        
-                return $response;
-            }
-        }
     }
 
     return new Cashfree_Quick_Button();
